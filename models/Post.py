@@ -1,5 +1,6 @@
 from BaseModel import BaseModel
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Mapped, mapped_column
+from User import User
+from sqlalchemy import relationship, DateTime, ForeignKey, Mapped, mapped_column
 
 class Post(BaseModel):
     __tablename__ = "posts"
@@ -10,6 +11,9 @@ class Post(BaseModel):
     user_id: Mapped[str] = mapped_column(ForeignKey("users.id"), nullable=False)
     creation_time: Mapped[DateTime] = mapped_column(nullable=False)
 
+    user: Mapped[User] = relationship(
+        back_populate = "posts"
+    )
     def __repr__(self):
         return f"<Post(id={self.id}, title={self.title}, content={self.ontent}, \
             user_id={self.user_id}, creation_time={self.creation_time})>"
