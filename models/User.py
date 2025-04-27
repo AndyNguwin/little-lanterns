@@ -1,7 +1,14 @@
 from typing import List
-from BaseModel import BaseModel
-from Post import Post
-from sqlalchemy.orm import Mapped, mapped_column, DateTime, relationship
+from models import BaseModel
+print("BaseModel:", BaseModel)
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.types import DateTime
+from datetime import datetime
+from sqlalchemy import func
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from models import Post
 
 class User(BaseModel):
     __tablename__ = "users"
@@ -11,10 +18,10 @@ class User(BaseModel):
     password: Mapped[str] = mapped_column(nullable=False)
     first_name: Mapped[str] = mapped_column(nullable=False)
     last_name: Mapped[str] = mapped_column(nullable=False)
-    creation_time: Mapped[DateTime] = mapped_column(nullable=False)
+    creation_time: Mapped[datetime] = mapped_column(DateTime, nullable=False, server_default=func.now())
 
     posts: Mapped[List["Post"]] = relationship(
-        backpopulates="users", cascade="all, delete-orphan"
+        back_populates="user", cascade="all, delete-orphan"
     )
 
     def __repr__(self):
