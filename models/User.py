@@ -1,6 +1,5 @@
 from typing import List
 from models import BaseModel
-print("BaseModel:", BaseModel)
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.types import DateTime
 from datetime import datetime
